@@ -59,4 +59,15 @@ public class Event {
     public void setCreator(String creator) {
         this.creator = creator;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "name='" + name + '\'' +
+                ", time=" + time +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", creator='" + creator + '\'' +
+                '}';
+    }
 }

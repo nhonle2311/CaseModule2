@@ -1,4 +1,4 @@
-//src
+package view;//src
 //|-- com
 //|   `-- yourcompany
 //|       `-- app
