@@ -1,19 +1,21 @@
 package manager;
 import model.Admin;
 import model.Event;
-import model.User;
 import storage.DataAccess;
 
-import java.io.IOException;
 import java.util.List;
 
 public class EventManager {
     List<Event> events = DataAccess.getInstance().readEvents();
 
-    public EventManager() throws IOException {
+    public EventManager() {
     }
 
-    public void createEvent(Event event, Admin admin) {
+    public List<Event> listEvents() {
+        return events;
+    }
+
+    public void addEvent(Event event, Admin admin) {
         try {
             if (admin.isAdmin) {
                 events.add(event);
@@ -23,6 +25,7 @@ public class EventManager {
             System.out.println("Create event failed");
         }
     }
+
     public void editEvent(Event event, Admin admin) {
         try {
             if (admin.isAdmin) {
@@ -40,5 +43,34 @@ public class EventManager {
         } catch (Exception e) {
             System.out.println("Edit event failed");
         }
+    }
+
+    public void deleteEvent(Event event, Admin admin) {
+        // xoa theo ten
+        try {
+            if (admin.isAdmin) {
+
+                for (Event event1 : events) {
+                    if (event1.getName().equals(event.getName())) {
+                        events.remove(event1);
+                    }
+                }
+                DataAccess.getInstance().writeEvent(events);
+            }
+        } catch (Exception e) {
+            System.out.println("Delete event failed");
+        }
+    }
+    public Event searchEvent(String name, String time, String location, String description, String creator) {
+        for (Event event : events) {
+            if (event.getName().equals(name)
+                    && event.getTime().equals(time)
+                    && event.getLocation().equals(location)
+                    && event.getDescription().equals(description)
+                    && event.getCreator().equals(creator)) {
+                return event;
+            }
+        }
+        return null;
     }
 }

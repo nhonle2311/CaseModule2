@@ -22,39 +22,51 @@ public class DataAccess implements IDataAccess{
 
 
     @Override
-    public List<Event> readEvents() throws IOException {
-        File file = new File(fileEvent);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        while ((line = bufferedReader.readLine())!= null){
-            String[] data = line.split(",");
-            Event event = new Event();
-            event.setName(data[0]);
-            event.setTime(LocalDate.parse(data[1]));
-            event.setLocation(data[2]);
-            event.setDescription(data[3]);
-            event.setCreator(data[4]);
-            events.add(event);
+    public List<Event> readEvents() {
+        try {
+            File file = new File(fileEvent);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+            while ((line = bufferedReader.readLine())!= null){
+                String[] data = line.split(",");
+                Event event = new Event();
+                event.setName(data[0]);
+                event.setTime(LocalDate.parse(data[1]));
+                event.setLocation(data[2]);
+                event.setDescription(data[3]);
+                event.setCreator(data[4]);
+                events.add(event);
+            }
+            bufferedReader.close();
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        bufferedReader.close();
-        fileReader.close();
+
         return events;
     }
 
     @Override
-    public void writeEvent(List<Event> events) throws IOException {
-        File file = new File(fileEvent);
-        FileWriter fileWriter = new FileWriter(file);
-        if (!file.exists()){
-            file.createNewFile();
+    public void writeEvent(List<Event> events) {
+        try {
+            File file = new File(fileEvent);
+            FileWriter fileWriter = new FileWriter(file);
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            for (Event event: events){
+                bufferedWriter.write(event.getName()+","+event.getTime()+","+event.getLocation()+","+event.getDescription()+","+event.getCreator());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        for (Event event: events){
-            bufferedWriter.write(event.getName()+","+event.getTime()+","+event.getLocation()+","+event.getDescription()+","+event.getCreator());
-            bufferedWriter.newLine();
-        }
-        bufferedWriter.close();
-        fileWriter.close();
+
     }
 }
