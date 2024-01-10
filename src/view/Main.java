@@ -13,8 +13,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        //login
         List<Event> events = new ArrayList<>();
-        events.add(new Event("event1", LocalDate.parse("2021-01-01"), "location1", "description1", "creator1"));
+        Event event1 = new Event("event1", LocalDate.parse("2021-01-01"), "location1", "description1", "creator1");
+        EventManager eventManager = new EventManager();
+        //login
+        Admin admin = new Admin(true);
+        System.out.println(eventManager.listEvents());
+        System.out.println(eventManager.addEvent(event1, admin));
+        System.out.println(eventManager.editEvent(event1,admin));
+        System.out.println(eventManager.listEvents());
     }
 }
