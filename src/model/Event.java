@@ -19,6 +19,7 @@ public class Event {
         this.location = location;
         this.description = description;
         this.creator = creator;
+        this.approved = false;
     }
     public String getName() {
         return name;
@@ -62,6 +63,11 @@ public class Event {
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
     @Override
     public String toString() {
         return "Event{" +

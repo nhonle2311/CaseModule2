@@ -5,7 +5,7 @@ import storage.DataAccess;
 
 import java.util.List;
 public class User extends Account implements IUser {
-    private boolean isUser;
+    public boolean isUser;
 
     public User(boolean isUser) {
         this.isUser = isUser;
@@ -18,14 +18,10 @@ public class User extends Account implements IUser {
 
     @Override
     public boolean login(String username, String password) {
-        //username = sdt 10 so ssuwrdungj regex,  password = 6 so
-        try {
-            if (username.matches("[0-9]{10}") && password.matches("[0-9]{6}")) {
+        //username = sdt 10 so ssuwrdungj regex,
+            if (username.matches("[0-9]{10}") && password.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")) {
                 return true;
             }
-        } catch (Exception e) {
-            System.out.println("Login failed");
-        }
         return false;
     }
 

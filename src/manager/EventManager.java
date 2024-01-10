@@ -1,15 +1,18 @@
 package manager;
 import model.Admin;
 import model.Event;
+import model.User;
 import storage.DataAccess;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class EventManager {
      private final List<Event> events = DataAccess.getInstance().readEvents();
+     private final Queue<Event> eventQueue = DataAccess.getInstance().readEventQueue();
      final Scanner scanner = new Scanner(System.in);
      public List<Event> listEvents() {
         return events;
@@ -25,6 +28,30 @@ public class EventManager {
             }
         return false;
     }
+    public boolean addEventQueue(Event event, User user, Admin admin) {
+           if (user.isUser) {
+               eventQueue.add(event);
+               DataAccess.getInstance().writeEventQueue(eventQueue);
+               if(admin.isAdmin && eventQueue.contains(event)){
+                   if (event.isApproved()){
+                       if (!events.contains(event)){
+                       events.add(event);
+                       DataAccess.getInstance().writeEvent(events);
+                       System.out.println("Add event success");
+                         return true;
+                       }else {
+                           System.out.println("Add event failed");
+                       }
+                   }else {
+                       eventQueue.remove(event);
+                       System.out.println("event is not approved, remove from queue");
+                   }
+                   return true;
+                   }
+           }
+        return false;
+    }
+
 
     public boolean editEvent(Event event, Admin admin) {
         if (admin.isAdmin) {
