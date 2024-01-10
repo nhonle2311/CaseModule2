@@ -8,6 +8,7 @@ public class Event {
     private String location;
     private String description;
     private String creator;
+    private boolean approved;
 
     public Event() {
     }
@@ -19,7 +20,6 @@ public class Event {
         this.description = description;
         this.creator = creator;
     }
-
     public String getName() {
         return name;
     }
@@ -59,7 +59,9 @@ public class Event {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
     @Override
     public String toString() {
         return "Event{" +
@@ -70,4 +72,6 @@ public class Event {
                 ", creator='" + creator + '\'' +
                 '}';
     }
+
+
 }

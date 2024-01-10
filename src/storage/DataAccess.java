@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataAccess implements IDataAccess{
+    public List<Event> events = new ArrayList<>();
     private static DataAccess instance;
+
+    private final String fileEvent = "event.csv";
     private DataAccess(){}
     public static DataAccess getInstance(){
         if (instance == null){
@@ -16,12 +19,10 @@ public class DataAccess implements IDataAccess{
         }
         return instance;
     }
-    private final String fileEvent = "event.csv";
 
 
     @Override
-    public List<Event> readEvents() throws Exception {
-        List<Event> events = new ArrayList<>();
+    public List<Event> readEvents() throws IOException {
         File file = new File(fileEvent);
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -42,7 +43,7 @@ public class DataAccess implements IDataAccess{
     }
 
     @Override
-    public void writeEvent(List<Event> events) throws Exception {
+    public void writeEvent(List<Event> events) throws IOException {
         File file = new File(fileEvent);
         FileWriter fileWriter = new FileWriter(file);
         if (!file.exists()){

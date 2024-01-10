@@ -1,20 +1,22 @@
 package model;
 
+import java.util.List;
+
 public interface IUser {
     //login
      boolean login(String username, String password);
     // logout
      boolean logout();
     //create event
-     void createEvent(String name, String time, String location, String description, String creator);
+     void createEvent(Event event);
     //edit event
-     void editEvent(String name, String time, String location, String description, String creator);
+     void editEvent(Event event);
     //delete event
-    void deleteEvent(String name, String time, String location, String description, String creator);
+    void deleteEvent(Event event);
     //list events
-    void listEvents();
+    List<Event> listEvents();
     //search events
-    void searchEvents(String name, String time, String location, String description, String creator);
+    Event searchEvents(String name, String time, String location, String description, String creator);
     //export events
     void exportEvents(String name, String time, String location, String description, String creator);
 }
