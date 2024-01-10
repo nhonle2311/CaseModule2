@@ -4,11 +4,13 @@ import model.Event;
 import storage.DataAccess;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class EventManager {
      private final List<Event> events = DataAccess.getInstance().readEvents();
+     final Scanner scanner = new Scanner(System.in);
      public List<Event> listEvents() {
         return events;
     }
@@ -25,7 +27,6 @@ public class EventManager {
     }
 
     public boolean editEvent(Event event, Admin admin) {
-        Scanner scanner = new Scanner(System.in);
         if (admin.isAdmin) {
             System.out.println("enter name event to edit: ");
             String name = scanner.nextLine();
@@ -54,32 +55,41 @@ public class EventManager {
         return false;
     }
 
-    public void deleteEvent(Event event, Admin admin) {
+    public boolean deleteEvent(Event event, Admin admin) {
         // xoa theo ten
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("enter name event to delete: ");
+        String name = scanner.nextLine();
         try {
             if (admin.isAdmin) {
-
-                for (Event event1 : events) {
-                    if (event1.getName().equals(event.getName())) {
-                        events.remove(event1);
+                Iterator<Event> iterator = events.iterator();
+                while (iterator.hasNext()) {
+                    Event event1 = iterator.next();
+                    if (event1.getName().equals(name)) {
+                        iterator.remove();
                     }
                 }
                 DataAccess.getInstance().writeEvent(events);
+                return true;
             }
         } catch (Exception e) {
             System.out.println("Delete event failed");
         }
+        return false;
     }
-    public Event searchEvent(String name, String time, String location, String description, String creator) {
+    public List<Event> searchEvent(String name,String creator) {
+         List<Event> events = DataAccess.getInstance().readEvents();
+        System.out.println("enter name event to search: ");
+        String nameSearch = scanner.nextLine();
         if (events != null){
             try{
                 for (Event event : events) {
-                    if (event.getName().equals(name)
-                            && event.getTime().equals(time)
-                            && event.getLocation().equals(location)
-                            && event.getDescription().equals(description)
-                            && event.getCreator().equals(creator)) {
-                        return event;
+                    if (event.getName().equals(nameSearch) || event.getCreator().equals(nameSearch))
+                    {
+                        // trùng thì sao?
+                        System.out.println("true");
+                        events.add(event);
+                        return events;
                     }
                 }
             }catch (Exception e){
