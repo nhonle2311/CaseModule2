@@ -19,7 +19,8 @@ public class User extends Account implements IUser {
     @Override
     public boolean login(String username, String password) {
         //username = sdt 10 so ssuwrdungj regex,
-            if (username.matches("[0-9]{10}") && password.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")) {
+            if (username.matches("[0-9]{4}") && password.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")) {
+                System.out.println("login success");
                 return true;
             }
         return false;

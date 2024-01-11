@@ -29,36 +29,65 @@ public class EventManager {
             }
         return false;
     }
-    public void addEventQueue(Event event, User user, Admin admin) {
-           if (user.isUser) {
-               eventQueue.add(event);
-               DataAccess.getInstance().writeEventQueue(eventQueue);
-               System.out.println("add queue success");
-//             event.setPendingApproval(true);
-//             DataAccess.getInstance().writeEventQueue(eventQueue); // Lưu lại trạng thái chờ duyệt
-//             //CHECK ADMIN
-//
-               if(admin.isAdmin && eventQueue.contains(event)){
-                   if (event.isApproved()){
-                       if (!events.contains(event)){
-                       events.add(event);
-                       DataAccess.getInstance().writeEvent(events);
-                       System.out.println("Add event success");
-                       eventQueue.remove(event);
-                       System.out.println("remove event from queue");
-                       }else {
-                           System.out.println("Add event failed");
-                       }
-                   }else {
-                       eventQueue.remove(event);
-                       System.out.println("event is not approved, remove from queue");
-                   }
-               }
-           }
-           else {
-               System.out.println("Add event failed");
-           }
+//    public void addEventQueue(Event event, User user, Admin admin) {
+//           if (user.isUser) {
+//               eventQueue.add(event);
+//               DataAccess.getInstance().writeEventQueue(eventQueue);
+//               System.out.println("add queue success");
+////             event.setPendingApproval(true);
+////             DataAccess.getInstance().writeEventQueue(eventQueue); // Lưu lại trạng thái chờ duyệt
+////             //CHECK ADMIN
+////
+//               if(admin.isAdmin && eventQueue.contains(event)){
+//                   if (event.isApproved()){
+//                       if (!events.contains(event)){
+//                       events.add(event);
+//                       DataAccess.getInstance().writeEvent(events);
+//                       System.out.println("Add event success");
+//                       eventQueue.remove(event);
+//                       System.out.println("remove event from queue");
+//                       }else {
+//                           System.out.println("Add event failed");
+//                       }
+//                   }else {
+//                       eventQueue.remove(event);
+//                       System.out.println("event is not approved, remove from queue");
+//                   }
+//               }
+//           }
+//           else {
+//               System.out.println("Add event failed");
+//           }
+//    }
+public void addEventQueue(Event event, User user, Admin admin) {
+    if (user.isUser) {
+        eventQueue.add(event);
+        DataAccess.getInstance().writeEventQueue(eventQueue);
+        System.out.println("add queue success");
+        event.setPendingApproval(true);
+        System.out.println("set pending approval success");
+    } else {
+        System.out.println("Add event failed");
     }
+
+    if (admin.isAdmin && eventQueue.contains(event)) {
+        System.out.println("admin approve event");
+        if (event.isApproved()) {
+            if (!events.contains(event)) {
+                events.add(event);
+                DataAccess.getInstance().writeEvent(events);
+                System.out.println("Add event success");
+                eventQueue.remove(event);
+                System.out.println("remove event from queue");
+            } else {
+                System.out.println("Add event failed");
+            }
+        } else {
+            eventQueue.remove(event);
+        }
+    }
+}
+
 
     public boolean editEvent(Event event, Admin admin) {
         if (admin != null && admin.isAdmin && events != null) {
@@ -72,14 +101,14 @@ public class EventManager {
                     System.out.println("enter new name: ");
                     event1.setName(scanner.nextLine());
                     System.out.println("enter new time: ");
-                    event1.setTime(LocalDate.parse(scanner.nextLine())); // Sửa lại thành event1
+                    event1.setTime(LocalDate.parse(scanner.nextLine()));
                     System.out.println("enter new location: ");
                     event1.setLocation(scanner.nextLine());
                     System.out.println("enter new description: ");
                     event1.setDescription(scanner.nextLine());
                     System.out.println("enter new creator: ");
                     event1.setCreator(scanner.nextLine());
-                    break; // Thoát khỏi vòng lặp sau khi chỉnh sửa xong
+                    break;
                 }
             }
 
