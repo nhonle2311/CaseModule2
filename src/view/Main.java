@@ -17,13 +17,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-//        Event event1 = new Event("event1", LocalDate.parse("2021-01-01"), "location1", "description1", "creator1");
-//        Event event4 = new Event("event4", LocalDate.parse("2021-01-02"), "location2", "description2", "creator2");
-//        EventManager eventManager = new EventManager();
-//        //login
-//        Admin admin = new Admin(true);
-
+        EventManager eventManager = new EventManager();
+        Event eventnhon3 = new Event("nhon3", LocalDate.parse("2021-12-12"),"location1","description1","creator1");
         int choice = -1;
         do {
             System.out.println(" chọn tài khoản ");
@@ -50,24 +45,19 @@ public class Main {
                                 System.exit(0);
                             case 1:
 
+                                eventManager.addEvent( eventnhon3  , getAdmin("admin","admin"));
+                            case 2:
+                                eventManager.editEvent(eventnhon3 , getAdmin("admin","admin"));
+                            case 3:
+                                eventManager.deleteEvent(eventnhon3 , getAdmin("admin","admin"));
+                            case 4:
+                                eventManager.searchEvent(eventnhon3.getName(), eventnhon3.getCreator());
                         }
                     }while (choiceAd!=-1);
                 case 2:
+
             }
         }while (choice != -1);
-
-//        System.out.println(eventManager.listEvents());
-//        System.out.println(eventManager.addEvent(event1, admin));
-//        System.out.println(eventManager.editEvent(event1,admin));
-//        System.out.println(eventManager.listEvents());
-//        System.out.println(eventManager.deleteEvent(event1,admin));
-//        System.out.println(eventManager.listEvents());
-////        System.out.println(eventManager.searchEvent(event1.getName(),event1.getCreator()));
-//        User user1 = new User("0123456789","Nguy12","Nguyen Van A","nguyenvana@gmail.com",true);
-//        user1.login("0123456789","Nguy12");
-//        System.out.println(user1.login("0123456789","Nguy12"));
-//        eventManager.addEventQueue(event4 ,user1,admin);
-
     }
 
     private static void loginAdmin(Scanner scanner) {
@@ -76,7 +66,7 @@ public class Main {
         String username = scanner.next();
         System.out.println("password");
         String password = scanner.next();
-        Admin admin = new Admin(username,password,"Admin Account", "  admin@gmail.com  ",true);
+        Admin admin = getAdmin(username, password);
         while (!admin.login(username,password)){
             System.out.println("Login failed");
             System.out.println("username");
@@ -84,6 +74,11 @@ public class Main {
             System.out.println("password");
             password = scanner.next();
         }
+    }
+
+    private static Admin getAdmin(String username, String password) {
+        Admin admin = new Admin(username, password,"Admin Account", "  admin@gmail.com  ",true);
+        return admin;
     }
 
 }

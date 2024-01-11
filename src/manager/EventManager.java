@@ -22,6 +22,7 @@ public class EventManager {
             if (admin.isAdmin) {
                 events.add(event);
                 DataAccess.getInstance().writeEvent(events);
+                System.out.println("Add event success");
                 return true;
             }else {
                 System.out.println("Add event failed");
@@ -59,34 +60,41 @@ public class EventManager {
            }
     }
 
-
     public boolean editEvent(Event event, Admin admin) {
-        if (admin.isAdmin) {
+        if (admin != null && admin.isAdmin && events != null) {
             System.out.println("enter name event to edit: ");
             String name = scanner.nextLine();
-                for (Event event1 : events) {
-                    if (event1.getName().equals(name)) {
-                        System.out.println("true");
-                        System.out.println("enter new name: ");
-                        event1.setName(scanner.nextLine());
-                        System.out.println("enter new time: ");
-                        event1.setTime(LocalDate.parse(scanner.nextLine()));
-                        System.out.println("enter new location: ");
-                        event1.setLocation(scanner.nextLine());
-                        System.out.println("enter new description: ");
-                        event1.setDescription(scanner.nextLine());
-                        System.out.println("enter new creator: ");
-                        event1.setCreator(scanner.nextLine());
-                    }
-                    DataAccess.getInstance().writeEvent(events);
-                    System.out.println("Edit event success");
-                    return true;
-                }
+            boolean found = false;
 
-            }else {
-                System.out.println("Edit event failed");
+            for (Event event1 : events) {
+                if (event1.getName().equals(name)) {
+                    found = true;
+                    System.out.println("enter new name: ");
+                    event1.setName(scanner.nextLine());
+                    System.out.println("enter new time: ");
+                    event1.setTime(LocalDate.parse(scanner.nextLine())); // Sửa lại thành event1
+                    System.out.println("enter new location: ");
+                    event1.setLocation(scanner.nextLine());
+                    System.out.println("enter new description: ");
+                    event1.setDescription(scanner.nextLine());
+                    System.out.println("enter new creator: ");
+                    event1.setCreator(scanner.nextLine());
+                    break; // Thoát khỏi vòng lặp sau khi chỉnh sửa xong
+                }
             }
-        return false;
+
+            if (found) {
+                DataAccess.getInstance().writeEvent(events);
+                System.out.println("Edit event success");
+                return true;
+            } else {
+                System.out.println("Event not found");
+                return false;
+            }
+        } else {
+            System.out.println("Invalid admin or events");
+            return false;
+        }
     }
 
     public boolean deleteEvent(Event event, Admin admin) {
@@ -115,14 +123,15 @@ public class EventManager {
          List<Event> events = DataAccess.getInstance().readEvents();
         System.out.println("enter name event to search: ");
         String nameSearch = scanner.nextLine();
+        System.out.println("enter creator event to search: ");
+        String creatorSearch = scanner.nextLine();
         if (events != null){
             try{
                 for (Event event : events) {
-                    if (event.getName().equals(nameSearch) || event.getCreator().equals(nameSearch))
+                    if (event.getName().equals(nameSearch) || event.getCreator().equals(creatorSearch))
                     {
-                        // trùng thì sao?
                         System.out.println("true");
-                        events.add(event);
+                        System.out.println(event);
                         return events;
                     }
                 }
