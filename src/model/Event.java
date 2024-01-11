@@ -60,12 +60,9 @@ public class Event {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
 
     public boolean isApproved() {
-        return approved;
+        return true;
     }
 
     @Override
@@ -80,4 +77,11 @@ public class Event {
     }
 
 
+    public void setPendingApproval(boolean b) {
+
+    }
+
+    public boolean isPendingApproval() {
+        return false;
+    }
 }

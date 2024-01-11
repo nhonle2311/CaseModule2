@@ -16,7 +16,9 @@ public class Admin extends Account implements IUser{
         super(username, password, name, email);
         this.isAdmin = isAdmin;
     }
-
+    public boolean hasApprovedEvent(Event event) {
+        return event.isApproved();
+    }
     @Override
     public boolean login(String username, String password) {
         if ("admin".equals(username) && "admin".equals(password)){
@@ -60,4 +62,6 @@ public class Admin extends Account implements IUser{
     public void exportEvents(String name, String time, String location, String description, String creator) {
 
     }
+
+
 }

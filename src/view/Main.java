@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         Event event1 = new Event("event1", LocalDate.parse("2021-01-01"), "location1", "description1", "creator1");
-        Event event2 = new Event("event2", LocalDate.parse("2021-01-02"), "location2", "description2", "creator2");
+        Event event4 = new Event("event4", LocalDate.parse("2021-01-02"), "location2", "description2", "creator2");
         EventManager eventManager = new EventManager();
         //login
         Admin admin = new Admin(true);
@@ -34,6 +34,6 @@ public class Main {
         User user1 = new User("0123456789","Nguy12","Nguyen Van A","nguyenvana@gmail.com",true);
         user1.login("0123456789","Nguy12");
         System.out.println(user1.login("0123456789","Nguy12"));
-        eventManager.addEventQueue(event2 ,user1,admin);
+        eventManager.addEventQueue(event4 ,user1,admin);
 }
 }
