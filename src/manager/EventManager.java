@@ -33,10 +33,10 @@ public class EventManager {
                eventQueue.add(event);
                DataAccess.getInstance().writeEventQueue(eventQueue);
                System.out.println("add queue success");
-               event.setPendingApproval(true);
-               DataAccess.getInstance().writeEventQueue(eventQueue); // Lưu lại trạng thái chờ duyệt
-               //CHECK ADMIN
-               
+//             event.setPendingApproval(true);
+//             DataAccess.getInstance().writeEventQueue(eventQueue); // Lưu lại trạng thái chờ duyệt
+//             //CHECK ADMIN
+//
                if(admin.isAdmin && eventQueue.contains(event)){
                    if (event.isApproved()){
                        if (!events.contains(event)){
