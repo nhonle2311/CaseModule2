@@ -33,18 +33,20 @@ public class DataAccess implements IDataAccess{
             String line;
             while ((line = bufferedReader.readLine())!= null){
                 String[] data = line.split(",");
-                Event event = new Event();
-                event.setName(data[0]);
-                event.setTime(LocalDate.parse(data[1]));
-                event.setLocation(data[2]);
-                event.setDescription(data[3]);
-                event.setCreator(data[4]);
-                events.add(event);
+                if (data.length == 5){
+                    Event event = new Event();
+                    event.setName(data[0]);
+                    event.setTime(LocalDate.parse(data[1]));
+                    event.setLocation(data[2]);
+                    event.setDescription(data[3]);
+                    event.setCreator(data[4]);
+                    events.add(event);
+                }else {
+                    System.out.println("data error"+line);
+                }
             }
             bufferedReader.close();
             fileReader.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +74,7 @@ public class DataAccess implements IDataAccess{
         }
 
     }
-
+    @Override
     public Queue<Event> readEventQueue() {
         Queue<Event> eventQueue = new LinkedList<>();
         try {
@@ -86,7 +88,7 @@ public class DataAccess implements IDataAccess{
                 event.setLocation(data[2]);
                 event.setDescription(data[3]);
                 event.setCreator(data[4]);
-                events.add(event);
+                eventQueue.add(event);
             }
             bufferedReader.close();
         } catch (IOException e) {
@@ -94,7 +96,8 @@ public class DataAccess implements IDataAccess{
         }
         return eventQueue;
     }
-    public Queue<Event> writeEventQueue(Queue<Event> eventQueue) {
+    @Override
+    public void writeEventQueue(Queue<Event> eventQueue) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileEventQueue));
             for (Event event: eventQueue){
@@ -105,6 +108,5 @@ public class DataAccess implements IDataAccess{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return eventQueue;
     }
 }

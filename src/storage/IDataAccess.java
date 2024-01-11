@@ -2,11 +2,14 @@ package storage;
 
 import model.Event;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
+import java.util.Queue;
 
 public interface IDataAccess {
-    List<Event> readEvents() throws IOException;
-    void writeEvent(List<Event> events) throws IOException;
+    List<Event> readEvents();
+    void writeEvent(List<Event> events);
+
+    Queue<Event> readEventQueue();
+
+    void writeEventQueue(Queue<Event> eventQueue);
 }

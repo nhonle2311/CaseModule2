@@ -64,6 +64,9 @@ public class Event {
     public boolean isApproved() {
         return true;
     }
+    public void setApproved(boolean b) {
+
+    }
 
     @Override
     public String toString() {
@@ -78,10 +81,5 @@ public class Event {
 
 
     public void setPendingApproval(boolean b) {
-
-    }
-
-    public boolean isPendingApproval() {
-        return false;
     }
 }

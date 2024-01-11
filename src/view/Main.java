@@ -4,76 +4,106 @@ package view;//src
 import model.Admin;
 import model.Event;
 import model.User;
-import storage.DataAccess;
 import manager.EventManager;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        final Scanner scanner = new Scanner(System.in);
         EventManager eventManager = new EventManager();
-        Event eventnhon3 = new Event("nhon3", LocalDate.parse("2021-12-12"),"location1","description1","creator1");
         int choice = -1;
-        do {
+        while (choice!= 0) {
             System.out.println(" choose account type");
             System.out.println("1: Admin");
             System.out.println("2: User");
-            Scanner scanner = new Scanner(System.in);
-            int type = scanner.nextInt();
-            switch (type){
+            System.out.println("0: exit");
+            choice = scanner.nextInt();
+            switch (choice) {
                 case 1:
                     loginAdmin(scanner);
-
                     int choiceAd = -1;
-                    do {
+                    while (choiceAd != 0) {
                         System.out.println(" choose action");
-                        System.out.println("0.exit");
+                        System.out.println("0: exit");
                         System.out.println("1: add event to list event");
                         System.out.println("2 :edit event by name");
                         System.out.println("3 :delete event by name");
                         System.out.println("4 :seach event by name or creator");
-                        Scanner scanner1 = new Scanner(System.in);
-                        int typeAd = scanner1.nextInt();
-                        switch (typeAd){
+                        System.out.println("5 :approve event");
+                        choiceAd = scanner.nextInt();
+                        switch (choiceAd) {
                             case 0:
-                                System.exit(0);
+                                break;
                             case 1:
-                                eventManager.addEvent( eventnhon3  , getAdmin("admin","admin"));
+                                eventManager.addEvent(getEvent(scanner), getAdmin("admin", "admin"));
+                                break;
                             case 2:
-                                eventManager.editEvent(eventnhon3 , getAdmin("admin","admin"));
+                                eventManager.editEvent(getAdmin("admin", "admin"));
+                                break;
                             case 3:
-                                eventManager.deleteEvent(eventnhon3 , getAdmin("admin","admin"));
+                                eventManager.deleteEvent(getAdmin("admin", "admin"));
+                                break;
                             case 4:
-                                eventManager.searchEvent(eventnhon3.getName(), eventnhon3.getCreator());
+                                eventManager.searchEvent(getAdmin("admin", "admin"));
+                                break;
+                            case 5:
+                                eventManager.approveEvent(getAdmin("admin", "admin"));
+                                break;
+                            default:
+                                System.out.println("invalid choice");
                         }
-                    }while (choiceAd!=-1);
+                    }
+                    break;
                 case 2:
                     loginUser(scanner);
                     int choiceUs = -1;
-                    do {
+                    while (choiceUs != 0) {
                         System.out.println(" choose action");
                         System.out.println("0.exit");
                         System.out.println("1: add event to queue");
                         System.out.println("2: Seach event by name or creator");
-                        Scanner scanner1 = new Scanner(System.in);
-                        int typeUs = scanner1.nextInt();
-                        switch (typeUs){
+                        choiceUs = scanner.nextInt();
+                        switch (choiceUs) {
                             case 0:
-                                System.exit(0);
+                                break;
                             case 1:
-                                eventManager.addEventQueue(  eventnhon3 , getUser("1234","123456") , getAdmin("admin","admin"));
+                                eventManager.addEventQueue( getEvent(scanner), getUser("user1", "123456"));
+                                break;
+
                             case 2:
-                                eventManager.searchEvent( eventnhon3.getName(), eventnhon3.getCreator());
+//                                eventManager.searchEvent( );
+                                break;
+                            default:
+                                System.out.println("invalid choice");
                         }
-                    }while (choiceUs!=-1);
+                    }
+                   break;
+                case 3:
+                    System.exit(0);
+                default: {
+                    System.out.println("invalid choice");
+                }
             }
-        }while (choice != -1);
+        }
+        getEvent(scanner);
+    }
+
+    private static Event getEvent(Scanner scanner) {
+        System.out.println("input name event");
+        scanner.nextLine();
+        String name = scanner.nextLine();
+        System.out.println("input time event");
+        LocalDate time = LocalDate.parse(scanner.nextLine());
+        System.out.println("input location event");
+        String location = scanner.nextLine();
+        System.out.println("input description event");
+        String description = scanner.nextLine();
+        System.out.println("input creator event");
+        String creator = scanner.nextLine();
+        Event event = new Event(name, time, location, description, creator);
+        return event;
     }
 
     private static void loginAdmin(Scanner scanner) {
@@ -116,6 +146,7 @@ public class Main {
         User user = new User(username, password,"User Account", "user1@mgail.com",true);
         return user;
     }
+
 
 }
 
