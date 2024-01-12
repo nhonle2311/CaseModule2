@@ -42,7 +42,7 @@ public class DataAccess implements IDataAccess{
                     event.setCreator(data[4]);
                     events.add(event);
                 }else {
-                    System.out.println("data error"+line);
+                    System.out.println("File event Not Data" + line);
                 }
             }
             bufferedReader.close();
@@ -82,6 +82,10 @@ public class DataAccess implements IDataAccess{
             String line;
             while ((line = bufferedReader.readLine())!= null){
                 String[] data = line.split(",");
+                if (data.length != 5){
+                    System.out.println("File queueEvent Not Data" + line);
+                    continue;
+                }
                 Event event = new Event();
                 event.setName(data[0]);
                 event.setTime(LocalDate.parse(data[1]));

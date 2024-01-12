@@ -50,14 +50,25 @@ public class EventManager {
             if (!listEventQueue().isEmpty()&& listEventQueue().peek().getName().equals(name)) {
                 Event event = listEventQueue().poll();
                 assert event != null;
-                event.setApproved(true);
-                events.add(event);
-                DataAccess.getInstance().writeEvent(events);
-                System.out.println("approve event success");
-                System.out.println(listEvents());
-                eventQueue.remove(event);
-                DataAccess.getInstance().writeEventQueue(eventQueue);
-                System.out.println("remove event success" +"\n"+"UpdateFile: " + listEventQueue());
+                System.out.println("Do you want to approve this event? (yes/no)");
+                String yesOrNo = scanner.nextLine();
+                if ("yes".equals(yesOrNo)){
+                    event.setApproved(true);
+                    events.add(event);
+                    DataAccess.getInstance().writeEvent(events);
+                    System.out.println("approve event success");
+                    System.out.println("Show List: "+listEvents());
+                    eventQueue.remove(event);
+                    DataAccess.getInstance().writeEventQueue(eventQueue);
+                    System.out.println("remove eventQueue success" +"\n"+"Update Queue List: " + listEventQueue());
+
+                }
+                else if ("no".equals(yesOrNo)){
+                    event.setApproved(false);
+                    eventQueue.remove(event);
+                    DataAccess.getInstance().writeEventQueue(eventQueue);
+                    System.out.println("event not approved and remove success" +"\n"+"Update Queue List: " + listEventQueue());
+                }
             } else {
                 System.out.println("list event queue is empty");
             }
@@ -99,7 +110,7 @@ public class EventManager {
         }
     }
 
-        public void deleteEvent(Admin admin) {
+    public void deleteEvent(Admin admin){
          System.out.println(listEvents());
          System.out.println("enter name event to delete: ");
          String name = scanner.nextLine();
@@ -112,10 +123,10 @@ public class EventManager {
                     return;
                 }
             }
-        }
+     }
 
 
-    public void searchEvent(Admin admin) {
+    public void searchEvent() {
          List<Event> events = DataAccess.getInstance().readEvents();
         System.out.println(listEvents());
         System.out.println("enter name event to search: ");

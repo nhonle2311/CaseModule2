@@ -46,7 +46,7 @@ public class Main {
                                 eventManager.deleteEvent(getAdmin("admin", "admin"));
                                 break;
                             case 4:
-                                eventManager.searchEvent(getAdmin("admin", "admin"));
+                                eventManager.searchEvent();
                                 break;
                             case 5:
                                 eventManager.approveEvent(getAdmin("admin", "admin"));
@@ -73,7 +73,7 @@ public class Main {
                                 break;
 
                             case 2:
-//                                eventManager.searchEvent( );
+                                eventManager.searchEvent( );
                                 break;
                             default:
                                 System.out.println("invalid choice");
